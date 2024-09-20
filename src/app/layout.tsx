@@ -3,6 +3,7 @@ import { Inter, Poppins } from 'next/font/google';
 
 import { Toaster } from '~/components/ui/sonner';
 import { cn } from '~/lib/utils';
+import dbConnect from '~/server/services/db-connect';
 import '~/styles/globals.css';
 
 const inter = Inter({ subsets: ['latin'] });
@@ -18,11 +19,13 @@ export const metadata: Metadata = {
     'SkillEdge offers a diverse range of online courses designed to help you master new skills and advance your career. Learn at your own pace with industry experts, and unlock your full potential today.',
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  await dbConnect();
+
   return (
     <html lang="en">
       <head>
