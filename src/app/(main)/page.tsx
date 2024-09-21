@@ -1,11 +1,11 @@
 import Image from 'next/image';
 import Link from 'next/link';
 
-import { ArrowRight, ArrowRightIcon, BookOpen } from 'lucide-react';
+import { ArrowRightIcon } from 'lucide-react';
 
+import { CourseCard } from '~/components/course-card';
 import { SectionTitle } from '~/components/section-title';
-import { Button, buttonVariants } from '~/components/ui/button';
-import { formatPrice } from '~/lib/format-price';
+import { buttonVariants } from '~/components/ui/button';
 import { cn } from '~/lib/utils';
 import { getCategories } from '~/server/queries/categories';
 import { getCourseList } from '~/server/queries/courses';
@@ -77,25 +77,23 @@ export default async function HomePage() {
           </Link>
         </div>
         <div className="mx-auto grid grid-cols-2 justify-center gap-4 md:grid-cols-3 2xl:grid-cols-4">
-          {categories.map((category) => {
-            return (
-              <Link
-                href={`/categories/${category.id}`}
-                key={category.id}
-                className="relative overflow-hidden rounded-lg border bg-background p-2 transition-all duration-500 ease-in-out hover:scale-105"
-              >
-                <div className="flex flex-col items-center justify-between gap-4 rounded-md p-6">
-                  <Image
-                    src={`/assets/images/categories/${category.thumbnail}`}
-                    alt={category.title}
-                    width={100}
-                    height={100}
-                  />
-                  <h3 className="font-bold">{category.title}</h3>
-                </div>
-              </Link>
-            );
-          })}
+          {categories.map((category) => (
+            <Link
+              href={`/categories/${category.id}`}
+              key={category.id}
+              className="relative overflow-hidden rounded-lg border bg-background p-2 transition-all duration-500 ease-in-out hover:scale-105"
+            >
+              <div className="flex flex-col items-center justify-between gap-4 rounded-md p-6">
+                <Image
+                  src={`/assets/images/categories/${category.thumbnail}`}
+                  alt={category.title}
+                  width={100}
+                  height={100}
+                />
+                <h3 className="font-bold">{category.title}</h3>
+              </div>
+            </Link>
+          ))}
         </div>
       </section>
 
@@ -104,7 +102,7 @@ export default async function HomePage() {
         <div className="flex items-center justify-between">
           <SectionTitle>Courses</SectionTitle>
           <Link
-            href={''}
+            href="/courses"
             className="flex items-center gap-1 text-sm font-medium hover:opacity-80"
           >
             Browse All <ArrowRightIcon className="h-4 w-4" />
@@ -112,48 +110,7 @@ export default async function HomePage() {
         </div>
         <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-4">
           {courses.map((course) => (
-            <Link key={course.id} href={`/courses/${course.id}`}>
-              <div className="group h-full overflow-hidden rounded-lg border p-3 transition hover:shadow-sm">
-                <div className="relative aspect-video w-full overflow-hidden rounded-md">
-                  <Image
-                    src={`/assets/images/courses/${course.thumbnail}`}
-                    alt={course.title}
-                    className="object-cover"
-                    fill
-                  />
-                </div>
-                <div className="flex flex-col pt-2">
-                  <div className="line-clamp-2 text-lg font-medium group-hover:text-sky-700 md:text-base">
-                    {course.title}
-                  </div>
-                  <p className="text-xs text-muted-foreground">
-                    {course.category.title}
-                  </p>
-                  <div className="my-3 flex items-center gap-x-2 text-sm md:text-xs">
-                    <div className="flex items-center gap-x-1 text-slate-500">
-                      <div>
-                        <BookOpen className="w-4" />
-                      </div>
-                      <span>{course.modules.length} Chapters</span>
-                    </div>
-                  </div>
-
-                  <div className="mt-4 flex items-center justify-between">
-                    <p className="text-md font-medium text-slate-700 md:text-sm">
-                      {formatPrice(49)}
-                    </p>
-
-                    <Button
-                      variant="ghost"
-                      className="h-7 gap-1 text-xs text-sky-700"
-                    >
-                      Enroll
-                      <ArrowRight className="w-3" />
-                    </Button>
-                  </div>
-                </div>
-              </div>
-            </Link>
+            <CourseCard key={course.id} course={course} />
           ))}
         </div>
       </section>
