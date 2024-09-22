@@ -1,4 +1,5 @@
-/* eslint-disable @next/next/no-img-element */
+import Image from 'next/image';
+
 import { MessageSquare, Presentation, Star, UsersRound } from 'lucide-react';
 
 import { IUser } from '~/server/models/user';
@@ -17,10 +18,12 @@ export async function CourseInstructor({ instructor }: CourseInstructorProps) {
     <div className="rounded-md bg-gray-50 p-8">
       <div className="mb-8 md:flex md:gap-x-5">
         <div className="mb-5 h-[310px] w-[270px] max-w-full flex-none rounded md:mb-0">
-          <img
-            src={instructor.profilePicture}
+          <Image
+            src={instructor.profilePicture as string}
             alt={instructor.firstName}
             className="h-full w-full rounded object-cover"
+            width={270}
+            height={310}
           />
         </div>
         <div className="flex-1">

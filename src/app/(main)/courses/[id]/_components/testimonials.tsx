@@ -1,4 +1,5 @@
-/* eslint-disable @next/next/no-img-element */
+import Image from 'next/image';
+
 import { SectionTitle } from '~/components/section-title';
 import { StarRating } from '~/components/star-rating';
 import {
@@ -35,11 +36,11 @@ export function Testimonials({ testimonials }: TestimonialsProps) {
                 <div className="sm:break-inside-avoid">
                   <blockquote className="rounded-lg bg-gray-50 p-6 shadow-sm sm:p-8">
                     <div className="flex items-center gap-4">
-                      <img
+                      <Image
                         alt={testimonial.user.firstName}
                         src={testimonial.user.profilePicture}
-                        width="56"
-                        height="56"
+                        width={56}
+                        height={56}
                         className="size-14 rounded-full object-cover"
                       />
                       <div>

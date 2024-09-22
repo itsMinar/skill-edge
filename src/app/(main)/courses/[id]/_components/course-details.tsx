@@ -1,7 +1,11 @@
-/* eslint-disable @next/next/no-img-element */
+import Image from 'next/image';
+
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '~/components/ui/tabs';
 import { formatDate } from '~/lib/format-date';
 import { ICategory } from '~/server/models/category';
+import { IModule } from '~/server/models/module';
+import { IQuizSet } from '~/server/models/quiz-set';
+import { ITestimonial } from '~/server/models/testimonial';
 import { IUser } from '~/server/models/user';
 
 import { CourseCurriculum } from './course-curriculum';
@@ -10,13 +14,20 @@ import { CourseOverview } from './course-overview';
 
 type CourseDetailsProps = {
   course: {
-    category: ICategory;
     title: string;
     subtitle?: string;
-    modifiedOn: Date;
-    instructor: IUser;
     description: string;
-    learning: string[];
+    thumbnail?: string;
+    modules: IModule[];
+    price: number;
+    active: boolean;
+    category: ICategory;
+    instructor: IUser;
+    quizSet: IQuizSet;
+    testimonials: ITestimonial[];
+    learning?: string[];
+    createdOn: Date;
+    modifiedOn: Date;
   };
 };
 
@@ -36,10 +47,12 @@ export function CourseDetails({ course }: CourseDetailsProps) {
         {/*  */}
         <div className="mt-6 flex flex-col gap-5 sm:flex-row sm:items-center sm:gap-6 md:gap-20">
           <div className="flex items-center gap-2">
-            <img
+            <Image
               className="h-[40px] w-[40px] rounded-full"
-              src={course.instructor.profilePicture}
+              src={course.instructor.profilePicture as string}
               alt={course.instructor.firstName}
+              width={40}
+              height={40}
             />
             <p className="font-bold">
               {`${course.instructor.firstName} ${course.instructor.lastName}`}
@@ -62,7 +75,7 @@ export function CourseDetails({ course }: CourseDetailsProps) {
             <TabsContent value="overview">
               <CourseOverview
                 description={course.description}
-                learning={course.learning}
+                learning={course.learning as string[]}
               />
             </TabsContent>
             <TabsContent value="curriculum">

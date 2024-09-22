@@ -46,7 +46,6 @@ export function CourseCurriculum({ course }: CourseCurriculumProps) {
         </span>
       </div>
 
-      {/* contents */}
       <Accordion
         defaultValue={['item-1', 'item-2', 'item-3']}
         type="multiple"
