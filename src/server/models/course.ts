@@ -62,7 +62,7 @@ const CourseSchema: Schema<ICourse> = new Schema({
   },
   quizSet: {
     type: Schema.Types.ObjectId,
-    ref: 'Quizset',
+    ref: 'QuizSet',
   },
   testimonials: [
     {

@@ -1,13 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable @typescript-eslint/no-unused-vars */
-type MongoItem = {
-  _id: string | { toString: () => string };
-  [key: string]: any;
-};
-
-export function replaceMongoIdInArray(
-  array: MongoItem[]
-): Omit<MongoItem, '_id'>[] {
+export const replaceMongoIdInArray = (array: any[]) => {
   const mappedArray = array
     .map((item) => {
       return {
@@ -18,11 +9,9 @@ export function replaceMongoIdInArray(
     .map(({ _id, ...rest }) => rest);
 
   return mappedArray;
-}
+};
 
-export function replaceMongoIdInObject<T extends MongoItem>(
-  obj: T
-): Omit<T, '_id'> {
+export const replaceMongoIdInObject = (obj) => {
   const { _id, ...updatedObj } = { ...obj, id: obj._id.toString() };
   return updatedObj;
-}
+};

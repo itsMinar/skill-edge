@@ -7,6 +7,7 @@
   "files.associations": {
     "*.css": "tailwindcss"
   },
-  "typescript.tsdk": "node_modules\\typescript\\lib" // for windows
+  "typescript.tsdk": "node_modules\\typescript\\lib",
+  "docwriter.style": "Auto-detect" // for windows
   // "typescript.tsdk": "node_modules/typescript/lib" // for Linux or macOS
 }

@@ -9,6 +9,7 @@ export interface IModule extends Document {
   course: Schema.Types.ObjectId;
   lessonIds: Schema.Types.ObjectId[];
   order: number;
+  duration: number;
 }
 
 // Module schema
@@ -44,6 +45,10 @@ const ModuleSchema: Schema<IModule> = new Schema({
   order: {
     type: Number,
     required: [true, 'Order is required'],
+  },
+  duration: {
+    type: Number,
+    required: [true, 'Duration is required'],
   },
 });
 

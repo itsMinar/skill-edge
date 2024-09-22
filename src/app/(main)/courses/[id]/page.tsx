@@ -1,3 +1,6 @@
+import { replaceMongoIdInArray } from '~/lib/convert-data';
+import { getCourseDetails } from '~/server/queries/courses';
+
 import { CourseDetails } from './_components/course-details';
 import { CourseDetailsIntro } from './_components/course-details-intro';
 import { RelatedCourses } from './_components/related-courses';
@@ -75,14 +78,32 @@ export const courses = [
   },
 ];
 
-export default function SingleCoursePage() {
+type SingleCoursePageProps = {
+  params: {
+    id: string;
+  };
+};
+
+export default async function SingleCoursePage({
+  params: { id },
+}: SingleCoursePageProps) {
+  const course = await getCourseDetails(id);
+
   return (
     <>
-      <CourseDetailsIntro />
+      <CourseDetailsIntro
+        title={course.title}
+        subtitle={course.subtitle}
+        thumbnail={course.thumbnail}
+      />
 
-      <CourseDetails />
+      <CourseDetails course={course} />
 
-      <Testimonials />
+      {course.testimonials && course.testimonials.length > 0 && (
+        <Testimonials
+          testimonials={replaceMongoIdInArray(course.testimonials)}
+        />
+      )}
 
       <RelatedCourses />
     </>
