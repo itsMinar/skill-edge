@@ -1,5 +1,11 @@
 import { Document, Model, Schema, model, models } from 'mongoose';
 
+// Define an enum for user roles
+export enum UserRole {
+  Student = 'student',
+  Instructor = 'instructor',
+}
+
 // User interface
 export interface IUser extends Document {
   firstName: string;
@@ -7,7 +13,7 @@ export interface IUser extends Document {
   password: string;
   email: string;
   phone?: string;
-  role: string;
+  role: UserRole;
   bio?: string;
   socialMedia?: Record<string, string>;
   profilePicture?: string;
@@ -41,6 +47,7 @@ const UserSchema: Schema<IUser> = new Schema({
   },
   role: {
     type: String,
+    enum: Object.values(UserRole), // Restrict role to only defined enums
     required: [true, 'Role is required'],
   },
   bio: {
