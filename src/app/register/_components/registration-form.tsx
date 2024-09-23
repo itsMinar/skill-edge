@@ -25,9 +25,15 @@ const RegistrationSchema = z
   .object({
     firstName: z.string().min(1, 'First name is required'),
     lastName: z.string().min(1, 'Last name is required'),
-    email: z.string().email('Invalid email address'),
-    password: z.string().min(6, 'Password must be at least 6 characters'),
-    confirmPassword: z.string().min(6, 'Please confirm your password'),
+    email: z
+      .string({ message: 'Email is Required' })
+      .email({ message: 'Invalid email address' }),
+    password: z
+      .string({ message: 'Password is Required' })
+      .min(6, 'Password must be at least 6 characters'),
+    confirmPassword: z
+      .string({ message: 'Password is Required' })
+      .min(6, 'Please confirm your password'),
   })
   .refine((data) => data.password === data.confirmPassword, {
     message: 'Confirm Password does not match',
@@ -88,7 +94,7 @@ export function RegistrationForm({ role }: RegistrationFormProps) {
   return (
     <Card className="mx-auto max-w-sm">
       <CardHeader>
-        <CardTitle className="text-xl">Sign Up</CardTitle>
+        <CardTitle className="text-xl">Registration</CardTitle>
         <CardDescription>
           Enter your information to create an account
         </CardDescription>

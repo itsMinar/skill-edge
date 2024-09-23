@@ -1,5 +1,7 @@
 import Link from 'next/link';
-import { ReactNode } from 'react';
+import { ReactNode, useEffect, useState } from 'react';
+
+import { useSession } from 'next-auth/react';
 
 import { useLockBody } from '~/hooks/use-body-lock';
 import { cn } from '~/lib/utils';
@@ -20,6 +22,15 @@ type MobileNavProps = {
 
 export function MobileNav({ items, children }: MobileNavProps) {
   useLockBody();
+  const { data: session } = useSession();
+
+  type SessionType = typeof session | null;
+
+  const [loginSession, setLoginSession] = useState<SessionType>(null);
+
+  useEffect(() => {
+    setLoginSession(session);
+  }, [session]);
 
   return (
     <div
@@ -42,29 +53,31 @@ export function MobileNav({ items, children }: MobileNavProps) {
             </Link>
           ))}
         </nav>
-        <div className="flex items-center gap-3 lg:hidden">
-          <Link
-            href="/login"
-            className={cn(buttonVariants({ size: 'sm' }), 'px-4')}
-          >
-            Login
-          </Link>
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="outline" size="sm">
-                Register
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="center" className="mt-4 w-56">
-              <DropdownMenuItem className="cursor-pointer">
-                <Link href="/register/student">Student</Link>
-              </DropdownMenuItem>
-              <DropdownMenuItem className="cursor-pointer">
-                <Link href="/register/instructor">Instructor</Link>
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
-        </div>
+        {!loginSession && (
+          <div className="flex items-center gap-3 lg:hidden">
+            <Link
+              href="/login"
+              className={cn(buttonVariants({ size: 'sm' }), 'px-4')}
+            >
+              Login
+            </Link>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="outline" size="sm">
+                  Register
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="center" className="mt-4 w-56">
+                <DropdownMenuItem className="cursor-pointer">
+                  <Link href="/register/student">Student</Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem className="cursor-pointer">
+                  <Link href="/register/instructor">Instructor</Link>
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </div>
+        )}
         {children}
       </div>
     </div>

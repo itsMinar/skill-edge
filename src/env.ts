@@ -8,6 +8,7 @@ export const env = createEnv({
       .enum(['development', 'test', 'production'])
       .default('development'),
     MONGODB_URI: z.string().url(),
+    AUTH_SECRET: z.string(),
   },
 
   client: {
@@ -17,6 +18,7 @@ export const env = createEnv({
   runtimeEnv: {
     NODE_ENV: process.env.NODE_ENV,
     MONGODB_URI: process.env.MONGODB_URI,
+    AUTH_SECRET: process.env.AUTH_SECRET,
     NEXT_PUBLIC_CLIENTVAR: process.env.NEXT_PUBLIC_CLIENTVAR,
   },
 
