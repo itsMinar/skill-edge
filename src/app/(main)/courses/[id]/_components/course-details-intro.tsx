@@ -56,7 +56,7 @@ export function CourseDetailsIntro({
                     className="w-full rounded-lg"
                     width={768}
                     height={463}
-                    src={`/assets/images/courses/${thumbnail}`}
+                    src={thumbnail}
                     alt={title}
                   />
                 </div>

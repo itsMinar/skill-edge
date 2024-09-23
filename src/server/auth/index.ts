@@ -1,7 +1,9 @@
 import bcrypt from 'bcryptjs';
 import NextAuth from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
+import GoogleProvider from 'next-auth/providers/google';
 
+import { env } from '~/env';
 import UserModel from '~/server/models/user';
 
 import { authConfig } from './auth.config';
@@ -27,7 +29,6 @@ export const {
 
         try {
           const user = await UserModel.findOne({ email: credentials.email });
-          console.log('🚀 ~ authorize ~ user:', user);
 
           if (user) {
             const isPasswordCorrect = await bcrypt.compare(
@@ -52,6 +53,17 @@ export const {
               : 'An error occurred during authorization'
           );
         }
+      },
+    }),
+    GoogleProvider({
+      clientId: env.AUTH_GOOGLE_ID,
+      clientSecret: env.AUTH_GOOGLE_SECRET,
+      authorization: {
+        params: {
+          prompt: 'consent',
+          access_type: 'offline',
+          response_type: 'code',
+        },
       },
     }),
   ],

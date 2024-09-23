@@ -6,6 +6,8 @@
     "prefer-template": "error",
     "semi": "error",
     "n/no-process-env": "error",
+    // "@typescript-eslint/no-explicit-any": "warn",
+    // "@typescript-eslint/no-unused-vars": "warn",
     "check-file/filename-naming-convention": [
       "error",
       {

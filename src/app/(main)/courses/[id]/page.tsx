@@ -11,7 +11,7 @@ export const courses = [
     id: '1',
     title: 'Introduction to JavaScript',
     price: 49.99,
-    thumbnail: 'https://example.com/js-thumbnail.jpg',
+    thumbnail: 'https://i.postimg.cc/YCRDtRW5/ezgif-7-e7ce2d670b.jpg',
     category: {
       title: 'Development',
     },
@@ -28,7 +28,7 @@ export const courses = [
     id: '2',
     title: 'Mastering React',
     price: 99.99,
-    thumbnail: 'https://example.com/react-thumbnail.jpg',
+    thumbnail: 'https://i.postimg.cc/YCRDtRW5/ezgif-7-e7ce2d670b.jpg',
     category: {
       title: 'Frontend Development',
     },
@@ -38,7 +38,7 @@ export const courses = [
     id: '3',
     title: 'Python for Data Science',
     price: 149.99,
-    thumbnail: 'https://example.com/python-thumbnail.jpg',
+    thumbnail: 'https://i.postimg.cc/YCRDtRW5/ezgif-7-e7ce2d670b.jpg',
     category: {
       title: 'Data Science',
     },
@@ -54,7 +54,7 @@ export const courses = [
     id: '4',
     title: 'Full-Stack Web Development',
     price: 199.99,
-    thumbnail: 'https://example.com/fullstack-thumbnail.jpg',
+    thumbnail: 'https://i.postimg.cc/YCRDtRW5/ezgif-7-e7ce2d670b.jpg',
     category: {
       title: 'Web Development',
     },
@@ -64,7 +64,7 @@ export const courses = [
     id: '5',
     title: 'UI/UX Design Essentials',
     price: 79.99,
-    thumbnail: 'https://example.com/uiux-thumbnail.jpg',
+    thumbnail: 'https://i.postimg.cc/YCRDtRW5/ezgif-7-e7ce2d670b.jpg',
     category: {
       title: 'Design',
     },

@@ -18,3 +18,9 @@ export async function credentialLogin(formData: FormData) {
     throw new Error('An unknown error occurred');
   }
 }
+
+export async function doSocialLogin(formData: FormData) {
+  const action = formData.get('action') as string;
+
+  await signIn(action, { redirectTo: '/courses' });
+}

@@ -3,7 +3,7 @@ import { Input } from '~/components/ui/input';
 import { Label } from '~/components/ui/label';
 import { Textarea } from '~/components/ui/textarea';
 
-export default function Profile() {
+export default function AccountDetails() {
   return (
     <>
       <div className="rounded-md bg-white p-6 shadow dark:bg-slate-900 dark:shadow-gray-800">

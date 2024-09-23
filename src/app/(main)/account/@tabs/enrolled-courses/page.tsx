@@ -10,7 +10,7 @@ export default function EnrolledCourses() {
       <div className="group h-full overflow-hidden rounded-lg border p-3 transition hover:shadow-sm">
         <div className="relative aspect-video w-full overflow-hidden rounded-md">
           <Image
-            src="/assets/images/courses/course_1.png"
+            src="/assets/images/courses/course_1.jpg"
             alt={'course'}
             className="object-cover"
             fill

@@ -25,7 +25,7 @@ export function CourseCard({ course }: CourseCardProps) {
       <div className="group h-full overflow-hidden rounded-lg border p-3 transition hover:shadow-sm">
         <div className="relative aspect-video w-full overflow-hidden rounded-md">
           <Image
-            src={`/assets/images/courses/${course?.thumbnail}`}
+            src={course?.thumbnail}
             alt={course?.title}
             className="object-cover"
             fill

@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { redirect } from 'next/navigation';
 import { ReactNode, useEffect, useState } from 'react';
 
 import { useSession } from 'next-auth/react';
@@ -23,6 +24,10 @@ type MobileNavProps = {
 export function MobileNav({ items, children }: MobileNavProps) {
   useLockBody();
   const { data: session } = useSession();
+
+  if (session?.error === 'RefreshAccessTokenError') {
+    redirect('/login');
+  }
 
   type SessionType = typeof session | null;
 

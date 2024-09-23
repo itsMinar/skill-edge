@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import { redirect } from 'next/navigation';
 import { ReactNode, useEffect, useState } from 'react';
 
 import { Menu, X } from 'lucide-react';
@@ -27,6 +28,10 @@ type MainNavProps = {
 
 export function MainNav({ items, children }: MainNavProps) {
   const { data: session } = useSession();
+
+  if (session?.error === 'RefreshAccessTokenError') {
+    redirect('/login');
+  }
 
   type SessionType = typeof session | null;
   const [loginSession, setLoginSession] = useState<SessionType>(null);
@@ -106,10 +111,10 @@ export function MainNav({ items, children }: MainNavProps) {
                 <Link href="/account">Profile</Link>
               </DropdownMenuItem>
               <DropdownMenuItem className="cursor-pointer" asChild>
-                <Link href="account/enrolled-courses">My Courses</Link>
+                <Link href="/account/enrolled-courses">My Courses</Link>
               </DropdownMenuItem>
               <DropdownMenuItem className="cursor-pointer" asChild>
-                <Link href="">Testimonials & Certificates</Link>
+                <Link href="#">Testimonials & Certificates</Link>
               </DropdownMenuItem>
               <DropdownMenuItem className="cursor-pointer" asChild>
                 <p onClick={() => signOut()}>Logout</p>

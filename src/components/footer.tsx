@@ -4,7 +4,7 @@ import { Logo } from './logo';
 
 export function Footer() {
   return (
-    <footer className="bg-gray-200 py-2 md:py-4">
+    <footer className="bg-gray-200 py-4 md:py-6">
       <div className="container flex flex-col items-center justify-between gap-4 md:flex-row">
         <Link href="/" className="flex items-center gap-2" prefetch={false}>
           <Logo />

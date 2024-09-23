@@ -9,6 +9,8 @@ export const env = createEnv({
       .default('development'),
     MONGODB_URI: z.string().url(),
     AUTH_SECRET: z.string(),
+    AUTH_GOOGLE_ID: z.string(),
+    AUTH_GOOGLE_SECRET: z.string(),
   },
 
   client: {
@@ -19,6 +21,8 @@ export const env = createEnv({
     NODE_ENV: process.env.NODE_ENV,
     MONGODB_URI: process.env.MONGODB_URI,
     AUTH_SECRET: process.env.AUTH_SECRET,
+    AUTH_GOOGLE_ID: process.env.AUTH_GOOGLE_ID,
+    AUTH_GOOGLE_SECRET: process.env.AUTH_GOOGLE_SECRET,
     NEXT_PUBLIC_CLIENTVAR: process.env.NEXT_PUBLIC_CLIENTVAR,
   },
 
