@@ -103,7 +103,7 @@ export function MainNav({ items, children }: MainNavProps) {
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="mt-4 w-56">
               <DropdownMenuItem className="cursor-pointer" asChild>
-                <Link href="account">Profile</Link>
+                <Link href="/account">Profile</Link>
               </DropdownMenuItem>
               <DropdownMenuItem className="cursor-pointer" asChild>
                 <Link href="account/enrolled-courses">My Courses</Link>

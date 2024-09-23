@@ -4,12 +4,15 @@ import CredentialsProvider from 'next-auth/providers/credentials';
 
 import UserModel from '~/server/models/user';
 
+import { authConfig } from './auth.config';
+
 export const {
   handlers: { GET, POST },
   auth,
   signIn,
   signOut,
 } = NextAuth({
+  ...authConfig,
   session: {
     strategy: 'jwt',
   },
