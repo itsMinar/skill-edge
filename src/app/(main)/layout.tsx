@@ -2,29 +2,7 @@ import { SessionProvider } from 'next-auth/react';
 
 import { Footer } from '~/components/footer';
 import { MainNav } from '~/components/main-nav';
-
-const navLinks = [
-  {
-    title: 'Features',
-    href: '#',
-    disabled: true,
-  },
-  {
-    title: 'Pricing',
-    href: '/pricing',
-    disabled: false,
-  },
-  {
-    title: 'Blog',
-    href: '/blog',
-    disabled: false,
-  },
-  {
-    title: 'Documentation',
-    href: '/docs',
-    disabled: false,
-  },
-];
+import { navLinks } from '~/data';
 
 export default function MainLayout({
   children,

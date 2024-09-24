@@ -1,31 +1,12 @@
 import { BookCheck, Clock10 } from 'lucide-react';
 
 import { Accordion } from '~/components/ui/accordion';
-import { type ICategory } from '~/server/models/category';
-import { IModule } from '~/server/models/module';
-import { IQuizSet } from '~/server/models/quiz-set';
-import { ITestimonial } from '~/server/models/testimonial';
-import { type IUser } from '~/server/models/user';
+import { ICourseWithID } from '~/types';
 
 import { CourseModule } from './course-module';
 
 type CourseCurriculumProps = {
-  course: {
-    title: string;
-    subtitle?: string;
-    description: string;
-    thumbnail?: string;
-    modules: IModule[];
-    price: number;
-    active: boolean;
-    category: ICategory;
-    instructor: IUser;
-    quizSet: IQuizSet;
-    testimonials: ITestimonial[];
-    learning?: string[];
-    createdOn: Date;
-    modifiedOn: Date;
-  };
+  course: ICourseWithID;
 };
 
 export function CourseCurriculum({ course }: CourseCurriculumProps) {

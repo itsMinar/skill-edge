@@ -4,9 +4,10 @@ import Link from 'next/link';
 import { EnrollCourse } from '~/components/enroll-course';
 import { buttonVariants } from '~/components/ui/button';
 import { cn } from '~/lib/utils';
+import { ICourseWithID } from '~/types';
 
 type CourseDetailsIntroProps = {
-  course: any;
+  course: ICourseWithID;
 };
 
 export function CourseDetailsIntro({ course }: CourseDetailsIntroProps) {
@@ -50,7 +51,7 @@ export function CourseDetailsIntro({ course }: CourseDetailsIntroProps) {
                     className="w-full rounded-lg"
                     width={768}
                     height={463}
-                    src={course?.thumbnail}
+                    src={course?.thumbnail as string}
                     alt={course?.title}
                   />
                 </div>

@@ -1,3 +1,26 @@
+export const navLinks = [
+  {
+    title: 'Features',
+    href: '#',
+    disabled: true,
+  },
+  {
+    title: 'Pricing',
+    href: '/pricing',
+    disabled: false,
+  },
+  {
+    title: 'Blog',
+    href: '/blog',
+    disabled: false,
+  },
+  {
+    title: 'Documentation',
+    href: '/docs',
+    disabled: false,
+  },
+];
+
 export const courses = [
   {
     id: '1',

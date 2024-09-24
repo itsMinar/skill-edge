@@ -4,20 +4,12 @@ import Link from 'next/link';
 import { BookOpen } from 'lucide-react';
 
 import { formatPrice } from '~/lib/format-price';
+import { ICourseWithID } from '~/types';
 
 import { EnrollCourse } from './enroll-course';
 
 type CourseCardProps = {
-  course: {
-    id: string;
-    title: string;
-    price: number;
-    thumbnail: string;
-    category: {
-      title: string;
-    };
-    modules: string[];
-  };
+  course: ICourseWithID;
 };
 
 export function CourseCard({ course }: CourseCardProps) {
@@ -27,7 +19,7 @@ export function CourseCard({ course }: CourseCardProps) {
         <div>
           <div className="relative aspect-video w-full overflow-hidden rounded-md">
             <Image
-              src={course?.thumbnail}
+              src={course?.thumbnail as string}
               alt={course?.title}
               className="object-cover"
               fill

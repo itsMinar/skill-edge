@@ -9,9 +9,10 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from '~/components/ui/carousel';
+import { ITestimonialExtended } from '~/types';
 
 type TestimonialsProps = {
-  testimonials: any[];
+  testimonials: ITestimonialExtended[];
 };
 
 export function Testimonials({ testimonials }: TestimonialsProps) {
@@ -38,7 +39,7 @@ export function Testimonials({ testimonials }: TestimonialsProps) {
                     <div className="flex items-center gap-4">
                       <Image
                         alt={testimonial.user.firstName}
-                        src={testimonial.user.profilePicture}
+                        src={testimonial.user.profilePicture as string}
                         width={56}
                         height={56}
                         className="size-14 rounded-full object-cover"

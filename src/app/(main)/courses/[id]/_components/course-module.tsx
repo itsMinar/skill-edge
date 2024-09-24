@@ -5,12 +5,12 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from '~/components/ui/accordion';
-import { IModule } from '~/server/models/module';
+import { IModuleExtended } from '~/types';
 
 import { CourseLesson } from './course-lesson';
 
 type CourseModuleProps = {
-  module: IModule;
+  module: IModuleExtended;
 };
 
 export function CourseModule({ module }: CourseModuleProps) {

@@ -2,33 +2,14 @@ import Image from 'next/image';
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '~/components/ui/tabs';
 import { formatDate } from '~/lib/format-date';
-import { ICategory } from '~/server/models/category';
-import { IModule } from '~/server/models/module';
-import { IQuizSet } from '~/server/models/quiz-set';
-import { ITestimonial } from '~/server/models/testimonial';
-import { IUser } from '~/server/models/user';
+import { ICourseWithID } from '~/types';
 
 import { CourseCurriculum } from './course-curriculum';
 import { CourseInstructor } from './course-instructor';
 import { CourseOverview } from './course-overview';
 
 type CourseDetailsProps = {
-  course: {
-    title: string;
-    subtitle?: string;
-    description: string;
-    thumbnail?: string;
-    modules: IModule[];
-    price: number;
-    active: boolean;
-    category: ICategory;
-    instructor: IUser;
-    quizSet: IQuizSet;
-    testimonials: ITestimonial[];
-    learning?: string[];
-    createdOn: Date;
-    modifiedOn: Date;
-  };
+  course: ICourseWithID;
 };
 
 export function CourseDetails({ course }: CourseDetailsProps) {

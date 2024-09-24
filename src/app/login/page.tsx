@@ -1,5 +1,11 @@
+import type { Metadata } from 'next';
+
 import { LoginForm } from './_components/login-form';
 import { SocialLogins } from './_components/social-logins';
+
+export const metadata: Metadata = {
+  title: 'SkillEdge - Login',
+};
 
 export default function LoginPage() {
   return (

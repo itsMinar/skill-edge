@@ -1,4 +1,3 @@
-import { CourseCard } from '~/components/course-card';
 import { SectionTitle } from '~/components/section-title';
 import {
   Carousel,
@@ -28,7 +27,8 @@ export function RelatedCourses() {
                 key={course.id}
                 className="md:basis-1/2 lg:basis-1/3"
               >
-                <CourseCard course={course} />
+                {/* <CourseCard course={course} /> */}
+                <h2>Emni</h2>
               </CarouselItem>
             ))}
           </CarouselContent>

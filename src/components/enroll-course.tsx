@@ -5,10 +5,11 @@ import { ArrowRight } from 'lucide-react';
 import { Button, buttonVariants } from '~/components/ui/button';
 import { cn } from '~/lib/utils';
 import { createCheckoutSession } from '~/server/actions/stripe';
+import { ICourseWithID } from '~/types';
 
 type EnrollCourseProps = {
   asLink?: boolean;
-  course: any;
+  course: ICourseWithID;
 };
 
 export const EnrollCourse = ({ asLink = false, course }: EnrollCourseProps) => {

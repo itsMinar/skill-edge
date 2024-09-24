@@ -22,9 +22,7 @@ export function ActiveFilters({ filter }: ActiveFiltersProps) {
             key={category}
             variant="ghost"
             className="h-7 gap-1 rounded-full bg-muted text-xs text-sky-700"
-            onClick={() =>
-              applyArrayFilter({ type: 'categories', value: category })
-            }
+            onClick={() => console.log({ type: 'categories', value: category })}
           >
             {category}
             <X className="w-3" />
@@ -37,7 +35,7 @@ export function ActiveFilters({ filter }: ActiveFiltersProps) {
             key={price}
             variant="ghost"
             className="h-7 gap-1 rounded-full bg-muted text-xs text-sky-700"
-            onClick={() => applyArrayFilter({ type: 'price', value: price })}
+            onClick={() => console.log({ type: 'price', value: price })}
           >
             {price}
             <X className="w-3" />
