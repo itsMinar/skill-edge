@@ -1,10 +1,11 @@
 import Image from 'next/image';
 import Link from 'next/link';
 
-import { ArrowRight, BookOpen } from 'lucide-react';
+import { BookOpen } from 'lucide-react';
 
-import { Button } from '~/components/ui/button';
 import { formatPrice } from '~/lib/format-price';
+
+import { EnrollCourse } from './enroll-course';
 
 type CourseCardProps = {
   course: {
@@ -52,10 +53,7 @@ export function CourseCard({ course }: CourseCardProps) {
               {formatPrice(course?.price)}
             </p>
 
-            <Button variant="ghost" className="h-7 gap-1 text-xs text-sky-700">
-              Enroll
-              <ArrowRight className="w-3" />
-            </Button>
+            <EnrollCourse asLink={true} />
           </div>
         </div>
       </div>
