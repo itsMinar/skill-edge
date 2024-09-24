@@ -1,37 +1,17 @@
-async function refreshAccessToken(token) {
-  try {
-    const url = `https://oauth2.googleapis.com/token?${new URLSearchParams({
-      client_id: process.env.GOOGLE_CLIENT_ID,
-      client_secret: process.env.GOOGLE_CLIENT_SECRET,
-      grant_type: 'refresh_token',
-      refresh_token: token.refreshToken,
-    })}`;
-
-    const response = await fetch(url, {
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-      },
-      method: 'POST',
-    });
-
-    const refreshedTokens = await response.json();
-
-    if (!response.ok) {
-      throw refreshedTokens;
-    }
-
-    return {
-      ...token,
-      accessToken: refreshedTokens?.access_token,
-      accessTokenExpires: Date.now() + refreshedTokens?.expires_in * 1000,
-      refreshToken: refreshedTokens?.refresh_token,
-    };
-  } catch (error) {
-    console.log(error);
-
-    return {
-      ...token,
-      error: 'RefreshAccessTokenError',
-    };
-  }
-}
+const emailsToSend = [
+  {
+    to: instructorEmail,
+    subject: `New Enrollment for ${courseName}.`,
+    message: `Congratulations, ${instructorName}. A new student, ${customerName} has enrolled to your course ${courseName} just now. Please check the instructor dashboard and give a high-five to your new student.`,
+  },
+  {
+    to: customerEmail,
+    subject: `Enrollment Success for ${courseName}`,
+    message: `Hey ${customerName} You have successfully enrolled for the course ${courseName}`,
+  },
+  {
+    to: checkoutSession.customer_details?.email,
+    subject: `Your Account is Used for Payment`,
+    message: `Hi ${checkoutSession.customer_details?.name}, This is to inform you that your account has been used for payment for the course ${courseName}.`,
+  },
+];

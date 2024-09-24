@@ -12,6 +12,7 @@ export const env = createEnv({
     AUTH_GOOGLE_ID: z.string(),
     AUTH_GOOGLE_SECRET: z.string(),
     STRIPE_SECRET_KEY: z.string(),
+    RESEND_API_KEY: z.string(),
   },
 
   client: {
@@ -26,6 +27,7 @@ export const env = createEnv({
     AUTH_GOOGLE_SECRET: process.env.AUTH_GOOGLE_SECRET,
     STRIPE_SECRET_KEY: process.env.STRIPE_SECRET_KEY,
     NEXT_PUBLIC_STRIPE_PUBLIC_KEY: process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY,
+    RESEND_API_KEY: process.env.RESEND_API_KEY,
   },
 
   skipValidation: !!process.env.SKIP_ENV_VALIDATION,

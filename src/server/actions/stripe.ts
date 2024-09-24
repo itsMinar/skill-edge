@@ -8,6 +8,16 @@ import { type Currency, formatAmountForStripe } from '~/lib/stripe-helpers';
 const CURRENCY: Currency = 'USD';
 
 export async function createCheckoutSession(data: FormData) {
+  // Retrieve and validate form data
+  const courseId = data.get('courseId') as string | null;
+  const courseName = data.get('courseName') as string | null;
+  const coursePrice = data.get('coursePrice') as number | null;
+
+  // Validate required fields
+  if (!courseId || !courseName || !coursePrice) {
+    throw new Error('Missing required course information.');
+  }
+
   const ui_mode = 'hosted';
   const origin = headers().get('origin');
 
@@ -21,15 +31,15 @@ export async function createCheckoutSession(data: FormData) {
         price_data: {
           currency: CURRENCY,
           product_data: {
-            name: 'React 101 Course',
+            name: courseName,
           },
-          unit_amount: formatAmountForStripe(1000, CURRENCY),
+          unit_amount: formatAmountForStripe(coursePrice, CURRENCY),
         },
       },
     ],
 
     ...(ui_mode === 'hosted' && {
-      success_url: `${origin}/enroll-success?session_id={CHECKOUT_SESSION_ID}&courseId=12445`,
+      success_url: `${origin}/enroll-success?session_id={CHECKOUT_SESSION_ID}&courseId=${courseId}`,
 
       cancel_url: `${origin}/courses`,
     }),
@@ -41,9 +51,17 @@ export async function createCheckoutSession(data: FormData) {
   };
 }
 
-export async function createPaymentIntent(data) {
+export async function createPaymentIntent(data: FormData) {
+  // Retrieve and validate form data
+  const coursePrice = data.get('coursePrice') as number | null;
+
+  // Validate required fields
+  if (!coursePrice) {
+    throw new Error('Missing required course information.');
+  }
+
   const paymentIntent = await stripe.paymentIntents.create({
-    amount: formatAmountForStripe(1000, CURRENCY),
+    amount: formatAmountForStripe(coursePrice, CURRENCY),
     automatic_payment_methods: { enabled: true },
     currency: CURRENCY,
   });

@@ -7,8 +7,7 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from '~/components/ui/carousel';
-
-import { courses } from '../page';
+import { courses } from '~/data';
 
 export function RelatedCourses() {
   return (
