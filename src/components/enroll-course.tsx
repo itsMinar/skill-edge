@@ -5,14 +5,13 @@ import { ArrowRight } from 'lucide-react';
 import { Button, buttonVariants } from '~/components/ui/button';
 import { cn } from '~/lib/utils';
 import { createCheckoutSession } from '~/server/actions/stripe';
-import { ICourseWithID } from '~/types';
 
 type EnrollCourseProps = {
   asLink?: boolean;
-  course: ICourseWithID;
+  courseId: string;
 };
 
-export const EnrollCourse = ({ asLink = false, course }: EnrollCourseProps) => {
+export const EnrollCourse = ({ asLink = false, courseId }: EnrollCourseProps) => {
   const formAction = async (data: FormData) => {
     const { url } = await createCheckoutSession(data);
     window.location.assign(url as string);
@@ -20,9 +19,8 @@ export const EnrollCourse = ({ asLink = false, course }: EnrollCourseProps) => {
 
   return (
     <form action={formAction}>
-      <input type="hidden" name="courseId" value={course?.id} />
-      <input type="hidden" name="courseName" value={course?.title} />
-      <input type="hidden" name="coursePrice" value={course?.price} />
+      <input type="hidden" name="courseId" value={courseId} />
+      
       {asLink ? (
         <Button
           type="submit"

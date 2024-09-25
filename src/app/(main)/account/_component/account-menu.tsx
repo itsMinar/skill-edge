@@ -12,7 +12,7 @@ const menu = [
   { label: 'Enrolled Courses', href: '/account/enrolled-courses' },
 ];
 
-export function Menu() {
+export function AccountMenu() {
   const pathname = usePathname();
 
   return (
@@ -30,7 +30,11 @@ export function Menu() {
         </li>
       ))}
       <li className="navbar-item account-menu py-2">
-        <Button variant="destructive" onClick={() => signOut()}>
+        <Button
+          className="px-6"
+          variant="destructive"
+          onClick={() => signOut()}
+        >
           Logout
         </Button>
       </li>

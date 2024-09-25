@@ -5,18 +5,23 @@ import { headers } from 'next/headers';
 import { stripe } from '~/lib/stripe';
 import { type Currency, formatAmountForStripe } from '~/lib/stripe-helpers';
 
+import { getCourseDetails } from '../queries/courses';
+
 const CURRENCY: Currency = 'USD';
 
 export async function createCheckoutSession(data: FormData) {
-  // Retrieve and validate form data
   const courseId = data.get('courseId') as string | null;
-  const courseName = data.get('courseName') as string | null;
-  const coursePrice = data.get('coursePrice') as number | null;
 
-  // Validate required fields
-  if (!courseId || !courseName || !coursePrice) {
+  if (!courseId) {
     throw new Error('Missing required course information.');
   }
+
+  const course = await getCourseDetails(courseId);
+
+  if (!course) throw new Error('Course not found!');
+
+  const courseName: string = course.title;
+  const coursePrice: number = course.price;
 
   const ui_mode = 'hosted';
   const origin = headers().get('origin');
@@ -52,13 +57,17 @@ export async function createCheckoutSession(data: FormData) {
 }
 
 export async function createPaymentIntent(data: FormData) {
-  // Retrieve and validate form data
-  const coursePrice = data.get('coursePrice') as number | null;
+  const courseId = data.get('courseId') as string | null;
 
-  // Validate required fields
-  if (!coursePrice) {
+  if (!courseId) {
     throw new Error('Missing required course information.');
   }
+
+  const course = await getCourseDetails(courseId);
+
+  if (!course) throw new Error('Course not found!');
+
+  const coursePrice: number = course.price;
 
   const paymentIntent = await stripe.paymentIntents.create({
     amount: formatAmountForStripe(coursePrice, CURRENCY),
