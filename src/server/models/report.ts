@@ -2,24 +2,30 @@ import { Document, Model, Schema, model, models } from 'mongoose';
 
 // Report interface
 export interface IReport extends Document {
-  totalCompletedLessons: string[];
-  totalCompletedModules: string[];
+  totalCompletedLessons?: Schema.Types.ObjectId[];
+  totalCompletedModules?: Schema.Types.ObjectId[];
   course: Schema.Types.ObjectId;
   student: Schema.Types.ObjectId;
-  quizAssessment: Schema.Types.ObjectId;
+  quizAssessment?: Schema.Types.ObjectId;
   completion_date?: Date;
 }
 
 // Report schema
 const ReportSchema: Schema<IReport> = new Schema({
-  totalCompletedLessons: {
-    type: [String],
-    required: [true, 'Total completed lessons are required'],
-  },
-  totalCompletedModules: {
-    type: [String],
-    required: [true, 'Total completed modules are required'],
-  },
+  totalCompletedLessons: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: 'Lesson',
+      required: false,
+    },
+  ],
+  totalCompletedModules: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: 'Module',
+      required: false,
+    },
+  ],
   course: {
     type: Schema.Types.ObjectId,
     ref: 'Course',

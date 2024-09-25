@@ -1,13 +1,16 @@
 import { Document, Model, Schema, model, models } from 'mongoose';
 
-// TODO: options will be modified
+export interface QuizOption {
+  text: string;
+  is_correct: boolean;
+}
 // Quiz interface
 export interface IQuiz extends Document {
   title: string;
   description?: string;
   explanations?: string;
   slug?: string;
-  options: string[];
+  options: QuizOption[];
   mark: number;
 }
 
@@ -30,7 +33,12 @@ const QuizSchema: Schema<IQuiz> = new Schema({
     required: false,
   },
   options: {
-    type: [String],
+    type: [
+      {
+        text: { type: String, required: true },
+        is_correct: { type: Boolean, required: true },
+      },
+    ],
     required: [true, 'Options are required'],
   },
   mark: {

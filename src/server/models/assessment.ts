@@ -1,16 +1,39 @@
 import { Document, Model, Schema, model, models } from 'mongoose';
 
-// TODO: assessments will be modified
+export interface AssessmentOption {
+  option: string;
+  isCorrect: boolean;
+  isSelected: boolean;
+}
+
+export interface Assessment {
+  quizId: Schema.Types.ObjectId;
+  options: AssessmentOption[];
+  attempted: boolean;
+}
+
 // Assessment interface
 export interface IAssessment extends Document {
-  assessments: string[];
+  assessments: Assessment[];
   otherMarks: number;
 }
 
 // Assessment schema
 const AssessmentSchema: Schema<IAssessment> = new Schema({
   assessments: {
-    type: [String],
+    type: [
+      {
+        quizId: { type: Schema.Types.ObjectId, required: true, ref: 'Quiz' },
+        options: [
+          {
+            option: { type: String, required: true },
+            isCorrect: { type: Boolean, required: true },
+            isSelected: { type: Boolean, required: true },
+          },
+        ],
+        attempted: { type: Boolean, required: true },
+      },
+    ],
     required: [true, 'Assessments are required'],
   },
   otherMarks: {
