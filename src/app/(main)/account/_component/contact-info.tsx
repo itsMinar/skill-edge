@@ -10,11 +10,20 @@ import { Button } from '~/components/ui/button';
 import { Input } from '~/components/ui/input';
 import { Label } from '~/components/ui/label';
 import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '~/components/ui/select';
+import {
   convertSocialMediaToArray,
   convertSocialMediaToObject,
 } from '~/lib/convert-data';
 import { updateUserInfo } from '~/server/actions/account';
 import { IUser } from '~/server/models/user';
+
+const socialPlatforms = ['facebook', 'github', 'twitter', 'linkedin'] as const;
 
 // Define the Zod schema for validation
 const schema = z.object({
@@ -46,6 +55,7 @@ export function ContactInfo({ userInfo }: ContactInfoProps) {
     register,
     handleSubmit,
     control,
+    setValue,
     formState: { isSubmitting, errors },
   } = useForm<FormData>({
     resolver: zodResolver(schema),
@@ -103,10 +113,26 @@ export function ContactInfo({ userInfo }: ContactInfoProps) {
             <div key={field.id} className="space-y-2">
               <Label>Social Media {index + 1}</Label>
               <div className="flex gap-2">
-                <Input
+                <Select
                   {...register(`socialMedia.${index}.platform`)}
-                  placeholder="Platform"
-                />
+                  defaultValue={field.platform}
+                  onValueChange={(value) => {
+                    setValue(`socialMedia.${index}.platform`, value, {
+                      shouldValidate: true,
+                    });
+                  }}
+                >
+                  <SelectTrigger className="w-[180px]">
+                    <SelectValue placeholder="Select platform" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {socialPlatforms.map((platform) => (
+                      <SelectItem key={platform} value={platform}>
+                        {platform.charAt(0).toUpperCase() + platform.slice(1)}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
                 <Input
                   {...register(`socialMedia.${index}.link`)}
                   placeholder="Link"

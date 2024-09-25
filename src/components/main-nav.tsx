@@ -52,9 +52,10 @@ export function MainNav({ items, children }: MainNavProps) {
             {items?.map((item, index) => (
               <Link
                 key={index}
-                href={item.href}
+                href={item.disabled ? '#' : item.href}
                 className={cn(
-                  'flex items-center text-lg font-medium transition-colors hover:text-foreground/80 sm:text-sm'
+                  'flex items-center text-lg font-medium transition-colors hover:text-foreground/80 sm:text-sm',
+                  item.disabled && 'cursor-not-allowed opacity-60'
                 )}
               >
                 {item.title}
