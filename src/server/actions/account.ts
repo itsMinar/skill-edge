@@ -9,8 +9,7 @@ import { validatePassword } from '../queries/users';
 
 export async function updateUserInfo(email: string, updatedData: IUser) {
   try {
-    const filter = { email: email };
-    await UserModel.findOneAndUpdate(filter, updatedData);
+    await UserModel.findOneAndUpdate({ email }, updatedData);
     revalidatePath('/account');
   } catch (error) {
     throw new Error(

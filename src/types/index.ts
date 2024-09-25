@@ -7,11 +7,16 @@ import { type IQuizSet } from '~/server/models/quiz-set';
 import { type ITestimonial } from '~/server/models/testimonial';
 import { type IUser } from '~/server/models/user';
 
-export type NavLink = {
+export interface NavLink {
   title: string;
   href: string;
   disabled: boolean;
-};
+}
+
+export interface SocialMediaEntry {
+  platform: string;
+  link: string;
+}
 
 export interface IModuleExtended extends Omit<IModule, 'course' | 'lessonIds'> {
   course: ICourse;

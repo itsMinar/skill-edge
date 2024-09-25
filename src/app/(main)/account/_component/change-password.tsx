@@ -42,6 +42,7 @@ export function ChangePassword({ email }: ChangePasswordProps) {
     resolver: zodResolver(schema),
   });
 
+  // Handle form submission
   const onSubmit = async (data: FormData) => {
     try {
       await changePassword(email, data.oldPassword, data.newPassword);

@@ -1,24 +1,30 @@
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Loader2 } from 'lucide-react';
-import { useForm } from 'react-hook-form';
+import { Loader2, X } from 'lucide-react';
+import { useFieldArray, useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import { z } from 'zod';
 
 import { Button } from '~/components/ui/button';
 import { Input } from '~/components/ui/input';
 import { Label } from '~/components/ui/label';
+import {
+  convertSocialMediaToArray,
+  convertSocialMediaToObject,
+} from '~/lib/convert-data';
+import { updateUserInfo } from '~/server/actions/account';
 import { IUser } from '~/server/models/user';
 
 // Define the Zod schema for validation
 const schema = z.object({
-  phone: z
-    .string()
-    .min(1, 'Phone number is required')
-    .regex(/^\d+$/, 'Phone number must be numeric')
-    .optional(),
-  socialMedia: z.record(z.string()).optional(),
+  phone: z.string().optional(),
+  socialMedia: z.array(
+    z.object({
+      platform: z.string().min(1, 'Platform is required'),
+      link: z.string().url('Must be a valid URL'),
+    })
+  ),
 });
 
 // Extract type from schema
@@ -30,21 +36,41 @@ type ContactInfoProps = {
 };
 
 export function ContactInfo({ userInfo }: ContactInfoProps) {
+  // convert the socialMediaObject to an Array
+  const defaultSocialMediaValue = convertSocialMediaToArray(
+    userInfo.socialMedia as Record<string, string>
+  );
+
+  // Initialize the form with default values - userInfo
   const {
     register,
     handleSubmit,
-    formState: { isSubmitting },
+    control,
+    formState: { isSubmitting, errors },
   } = useForm<FormData>({
     resolver: zodResolver(schema),
     defaultValues: {
       phone: userInfo.phone,
-      socialMedia: userInfo.socialMedia,
+      socialMedia: defaultSocialMediaValue,
     },
   });
 
-  const onSubmit = (data: FormData) => {
+  const { fields, append, remove } = useFieldArray({
+    control,
+    name: 'socialMedia',
+  });
+
+  // Handle form submission
+  const onSubmit = async (data: FormData) => {
+    const socialMediaObject = convertSocialMediaToObject(data.socialMedia);
+
+    const dataToUpdate = {
+      phone: data.phone,
+      socialMedia: socialMediaObject,
+    };
+
     try {
-      console.log('🚀 ~ onSubmit ~ data:', data);
+      await updateUserInfo(userInfo.email, dataToUpdate as IUser);
       toast.success('Contact info updated successfully.');
     } catch (error) {
       const errorMessage =
@@ -72,25 +98,61 @@ export function ContactInfo({ userInfo }: ContactInfoProps) {
               placeholder="Phone :"
             />
           </div>
-          <div>
-            <Label className="mb-2 block">Website :</Label>
-            <Input
-              {...register('socialMedia.website')}
-              type="text"
-              placeholder="Url :"
-            />
-          </div>
+
+          {fields.map((field, index) => (
+            <div key={field.id} className="space-y-2">
+              <Label>Social Media {index + 1}</Label>
+              <div className="flex gap-2">
+                <Input
+                  {...register(`socialMedia.${index}.platform`)}
+                  placeholder="Platform"
+                />
+                <Input
+                  {...register(`socialMedia.${index}.link`)}
+                  placeholder="Link"
+                />
+                <Button
+                  type="button"
+                  variant="destructive"
+                  onClick={() => remove(index)}
+                  className="px-2"
+                >
+                  <X />
+                </Button>
+              </div>
+              {errors.socialMedia?.[index]?.platform && (
+                <p className="text-sm text-red-500">
+                  {errors.socialMedia[index]?.platform?.message}
+                </p>
+              )}
+              {errors.socialMedia?.[index]?.link && (
+                <p className="text-sm text-red-500">
+                  {errors.socialMedia[index]?.link?.message}
+                </p>
+              )}
+            </div>
+          ))}
         </div>
-        <Button type="submit" className="mt-5" disabled={isSubmitting}>
-          {isSubmitting ? (
-            <>
-              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-              Updating...
-            </>
-          ) : (
-            'Update'
-          )}
-        </Button>
+
+        <div className="mt-5 flex gap-4">
+          <Button
+            type="button"
+            variant="outline"
+            onClick={() => append({ platform: '', link: '' })}
+          >
+            Add Social Media
+          </Button>
+          <Button type="submit" disabled={isSubmitting}>
+            {isSubmitting ? (
+              <>
+                <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                Updating...
+              </>
+            ) : (
+              'Update'
+            )}
+          </Button>
+        </div>
       </form>
     </div>
   );
