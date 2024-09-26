@@ -1,10 +1,11 @@
 import { type ICategory } from '~/server/models/category';
 import { type ICourse } from '~/server/models/course';
+import { type IEnrollment } from '~/server/models/enrollment';
 import { type ILesson } from '~/server/models/lesson';
 import { type IModule } from '~/server/models/module';
 import { type IQuiz } from '~/server/models/quiz';
 import { type IQuizSet } from '~/server/models/quiz-set';
-import { type ITestimonial } from '~/server/models/testimonial';
+import { ITestimonial } from '~/server/models/testimonial';
 import { type IUser } from '~/server/models/user';
 
 export interface NavLink {
@@ -47,4 +48,8 @@ export interface ICourseExtended
 
 export interface ICourseWithID extends ICourseExtended {
   id: string;
+}
+
+export interface IEnrollmentExtended extends Omit<IEnrollment, 'course'> {
+  course: ICourse;
 }
