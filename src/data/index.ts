@@ -1,3 +1,5 @@
+import { BarChart, BookA, BookOpen, Radio } from 'lucide-react';
+
 export const navLinks = [
   {
     title: 'Features',
@@ -90,5 +92,33 @@ export const courses = [
       'Figma',
       'Adobe XD',
     ],
+  },
+];
+
+export const dashboardNavRoutes = [
+  {
+    icon: BarChart,
+    label: 'Analytics',
+    href: '/dashboard',
+  },
+  {
+    icon: BookOpen,
+    label: 'Courses',
+    href: '/dashboard/courses',
+  },
+  {
+    icon: BookOpen,
+    label: 'Add Course',
+    href: '/dashboard/courses/add',
+  },
+  {
+    icon: Radio,
+    label: 'Lives',
+    href: '/dashboard/lives',
+  },
+  {
+    icon: BookA,
+    label: 'Quizes',
+    href: '/dashboard/quiz-sets',
   },
 ];

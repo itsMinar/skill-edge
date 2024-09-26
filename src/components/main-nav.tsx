@@ -6,9 +6,10 @@ import { ReactNode, useEffect, useState } from 'react';
 
 import { Menu, X } from 'lucide-react';
 import { signOut, useSession } from 'next-auth/react';
+import { toast } from 'sonner';
 
 import { cn } from '~/lib/utils';
-import { NavLink } from '~/types';
+import { IFetchMe, NavLink } from '~/types';
 
 import { Logo } from './logo';
 import { MobileNav } from './mobile-nav';
@@ -37,7 +38,21 @@ export function MainNav({ items, children }: MainNavProps) {
   const [loginSession, setLoginSession] = useState<SessionType>(null);
   const [showMobileMenu, setShowMobileMenu] = useState(false);
 
+  const [loggedInUser, setLoggedInUser] = useState<IFetchMe | null>(null);
+
   useEffect(() => {
+    const fetchMe = async () => {
+      try {
+        const response = await fetch('/api/me');
+        const data = await response.json();
+
+        setLoggedInUser(data);
+      } catch (error) {
+        toast.error(error instanceof Error ? error.message : String(error));
+      }
+    };
+
+    fetchMe();
     setLoginSession(session);
   }, [session]);
 
@@ -100,10 +115,10 @@ export function MainNav({ items, children }: MainNavProps) {
               <div className="cursor-pointer">
                 <Avatar>
                   <AvatarImage
-                    src="https://github.com/shadcn.png"
-                    alt="@shadcn"
+                    src={loggedInUser?.profilePicture}
+                    alt={loggedInUser?.firstName}
                   />
-                  <AvatarFallback>CN</AvatarFallback>
+                  <AvatarFallback>U</AvatarFallback>
                 </Avatar>
               </div>
             </DropdownMenuTrigger>
@@ -111,14 +126,23 @@ export function MainNav({ items, children }: MainNavProps) {
               <DropdownMenuItem className="cursor-pointer" asChild>
                 <Link href="/account">Profile</Link>
               </DropdownMenuItem>
+              {loggedInUser && loggedInUser.role === 'instructor' && (
+                <DropdownMenuItem className="cursor-pointer" asChild>
+                  <Link href="/dashboard">Dashboard</Link>
+                </DropdownMenuItem>
+              )}
               <DropdownMenuItem className="cursor-pointer" asChild>
                 <Link href="/account/enrolled-courses">My Courses</Link>
               </DropdownMenuItem>
               <DropdownMenuItem className="cursor-pointer" asChild>
                 <Link href="#">Testimonials & Certificates</Link>
               </DropdownMenuItem>
-              <DropdownMenuItem className="cursor-pointer" asChild>
-                <p onClick={() => signOut()}>Logout</p>
+              <DropdownMenuItem
+                onClick={() => signOut()}
+                className="cursor-pointer"
+                asChild
+              >
+                <p>Logout</p>
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>

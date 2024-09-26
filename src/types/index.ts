@@ -5,7 +5,7 @@ import { type ILesson } from '~/server/models/lesson';
 import { type IModule } from '~/server/models/module';
 import { type IQuiz } from '~/server/models/quiz';
 import { type IQuizSet } from '~/server/models/quiz-set';
-import { ITestimonial } from '~/server/models/testimonial';
+import { type ITestimonial } from '~/server/models/testimonial';
 import { type IUser } from '~/server/models/user';
 
 export interface NavLink {
@@ -18,6 +18,8 @@ export interface SocialMediaEntry {
   platform: string;
   link: string;
 }
+
+export type IFetchMe = Omit<IUser, 'password'>;
 
 export interface IModuleExtended extends Omit<IModule, 'course' | 'lessonIds'> {
   course: ICourse;

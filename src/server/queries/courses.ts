@@ -80,6 +80,19 @@ export async function getCourseDetailsByInstructor(instructorId: string) {
     })
   );
 
+  const groupByCourses = Object.groupBy(
+    enrollments.flat(),
+    ({ course }) => course
+  );
+
+  const totalRevenue = courses.reduce((acc, currentCourse) => {
+    return (
+      acc +
+      (groupByCourses[currentCourse._id.toString()]?.length || 0) *
+        currentCourse.price
+    );
+  }, 0);
+
   const totalEnrollments = enrollments.reduce((total, currentValue) => {
     return total + currentValue.length;
   }, 0);
@@ -105,5 +118,6 @@ export async function getCourseDetailsByInstructor(instructorId: string) {
     enrollments: totalEnrollments,
     reviews: totalTestimonials.length,
     ratings: avgRating.toPrecision(2),
+    totalRevenue,
   };
 }
