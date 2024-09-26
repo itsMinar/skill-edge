@@ -28,7 +28,7 @@ const LoginSchema = z.object({
     .email({ message: 'Invalid email address' }),
   password: z
     .string({ message: 'Password is Required' })
-    .min(6, 'Password must be at least 6 characters'),
+    .min(4, 'Password must be at least 6 characters'),
 });
 
 // Define types based on the Login schema

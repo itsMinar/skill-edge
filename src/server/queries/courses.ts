@@ -70,7 +70,10 @@ export async function getCourseDetails(id: string) {
   return replaceMongoIdInObject(course);
 }
 
-export async function getCourseDetailsByInstructor(instructorId: string) {
+export async function getCourseDetailsByInstructor(
+  instructorId: string,
+  expand = false
+) {
   const courses = await CourseModel.find({ instructor: instructorId }).lean();
 
   const enrollments = await Promise.all(
@@ -112,6 +115,14 @@ export async function getCourseDetailsByInstructor(instructorId: string) {
 
   const avgRating =
     totalTestimonials.length > 0 ? totalRating / totalTestimonials.length : 0;
+
+  if (expand) {
+    return {
+      courses: replaceMongoIdInArray(courses?.flat()),
+      enrollments: enrollments?.flat(),
+      reviews: totalTestimonials,
+    };
+  }
 
   return {
     courses: courses.length,
