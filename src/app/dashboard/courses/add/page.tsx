@@ -3,9 +3,8 @@
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 
-// import axios from "axios";
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm } from 'react-hook-form';
+import { type SubmitHandler, useForm } from 'react-hook-form';
 import { toast } from 'sonner';
 import * as z from 'zod';
 
@@ -31,6 +30,9 @@ const formSchema = z.object({
   }),
 });
 
+// Define types based on the Login schema
+type FormData = z.infer<typeof formSchema>;
+
 export default function AddCourse() {
   const router = useRouter();
 
@@ -42,17 +44,21 @@ export default function AddCourse() {
     },
   });
 
-  const { isSubmitting, isValid } = form.formState;
+  const { isSubmitting, errors } = form.formState;
 
-  const onSubmit = async (values) => {
+  const onSubmit: SubmitHandler<FormData> = async (values) => {
     try {
+      console.log('🚀 ~ SubmitHandler ~ values:', values);
       router.push(`/dashboard/courses/${1}`);
       toast.success('Course created');
     } catch (error) {
-      toast.error('Something went wrong');
+      const errorMessage =
+        error instanceof Error ? error.message : String(error);
+      form.setError('root', { message: errorMessage });
+      toast.error(errorMessage);
     }
-    console.log(values);
   };
+
   return (
     <div className="mx-auto flex h-full max-w-5xl p-6 md:items-center md:justify-center">
       <div className="w-[536px] max-w-full">
@@ -100,13 +106,20 @@ export default function AddCourse() {
                 </FormItem>
               )}
             />
+
+            {errors.root && (
+              <p className="text-sm font-medium text-destructive">
+                {errors.root.message}
+              </p>
+            )}
+
             <div className="flex items-center gap-x-2">
               <Link href="/dashboard/courses">
                 <Button variant="outline" type="button">
                   Cancel
                 </Button>
               </Link>
-              <Button type="submit" disabled={!isValid || isSubmitting}>
+              <Button type="submit" disabled={isSubmitting}>
                 Continue
               </Button>
             </div>

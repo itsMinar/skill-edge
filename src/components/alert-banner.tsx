@@ -3,6 +3,8 @@ import { AlertTriangle, CheckCircleIcon } from 'lucide-react';
 
 import { cn } from '~/lib/utils';
 
+type BannerVariant = 'warning' | 'success';
+
 const bannerVariants = cva(
   'border text-center p-4 text-sm flex items-center w-full',
   {
@@ -18,13 +20,28 @@ const bannerVariants = cva(
   }
 );
 
-const iconMap = {
+type TIconMap = {
+  warning: typeof AlertTriangle;
+  success: typeof CheckCircleIcon;
+};
+
+const iconMap: TIconMap = {
   warning: AlertTriangle,
   success: CheckCircleIcon,
 };
 
-export function AlertBanner({ label, variant, className }) {
-  const Icon = iconMap[variant || 'warning'];
+interface AlertBannerProps {
+  label: string;
+  variant?: BannerVariant;
+  className?: string;
+}
+
+export function AlertBanner({
+  label,
+  variant = 'warning',
+  className,
+}: AlertBannerProps) {
+  const Icon = iconMap[variant];
 
   return (
     <div className={cn(bannerVariants({ variant }), className)}>

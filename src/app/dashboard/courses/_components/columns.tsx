@@ -27,7 +27,7 @@ export interface ICourseColumn {
   id: string;
   title: string;
   price: number;
-  isPublished: boolean;
+  active: boolean;
 }
 
 export const columns: ColumnDef<ICourseColumn>[] = [
@@ -61,7 +61,7 @@ export const columns: ColumnDef<ICourseColumn>[] = [
     },
   },
   {
-    accessorKey: 'isPublished',
+    accessorKey: 'active',
     header: ({ column }) => {
       return (
         <Button
@@ -73,11 +73,11 @@ export const columns: ColumnDef<ICourseColumn>[] = [
       );
     },
     cell: ({ row }) => {
-      const isPublished = row.getValue('isPublished') || false;
+      const active = row.getValue('active') || false;
 
       return (
-        <Badge className={cn('bg-gray-500', isPublished && 'bg-success')}>
-          {isPublished ? 'Published' : 'Unpublished'}
+        <Badge className={cn('bg-gray-500', active && 'bg-success')}>
+          {active ? 'Published' : 'Unpublished'}
         </Badge>
       );
     },

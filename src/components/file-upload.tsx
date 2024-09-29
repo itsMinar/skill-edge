@@ -1,6 +1,5 @@
 'use client';
 
-// import uploadIcon from "~/assets/icons/upload.svg";
 import { useCallback, useEffect, useState } from 'react';
 
 import { CloudUpload } from 'lucide-react';
@@ -10,16 +9,26 @@ import { toast } from 'sonner';
 import { Progress } from '~/components/ui/progress';
 import { cn } from '~/lib/utils';
 
-export function UploadDropzone(props) {
-  const { isMulti = false, label } = props;
+// Define props interface
+interface UploadDropzoneProps {
+  isMulti?: boolean;
+  label?: string;
+}
 
-  const [droppedFiles, setDroppedFiles] = useState(null);
+// Define the dropped file type (optional)
+interface DroppedFile {
+  name: string;
+  size: number;
+  type: string;
+}
 
-  console.log(droppedFiles);
-
-  const [isUploading, setIsUploading] = useState(false);
-
-  const [uploadProgress, setUploadProgress] = useState(0);
+export function UploadDropzone({
+  isMulti = false,
+  label,
+}: UploadDropzoneProps) {
+  const [droppedFiles, setDroppedFiles] = useState<DroppedFile[] | null>(null);
+  const [isUploading, setIsUploading] = useState<boolean>(false);
+  const [uploadProgress, setUploadProgress] = useState<number>(0);
 
   // upload progress utility
   const startSimulatedProgress = () => {
@@ -29,7 +38,7 @@ export function UploadDropzone(props) {
       setUploadProgress((prevProgress) => {
         if (prevProgress >= 95) {
           clearInterval(interval);
-          prevProgress;
+          return prevProgress;
         }
         return prevProgress + 5;
       });
@@ -38,34 +47,32 @@ export function UploadDropzone(props) {
     return interval;
   };
 
-  const onDrop = useCallback(async (acceptedFiles) => {
-    // Do something with the files
-
+  const onDrop = useCallback(async (acceptedFiles: File[]) => {
     setIsUploading(true);
     const progressInterval = startSimulatedProgress();
 
-    setDroppedFiles(acceptedFiles);
+    setDroppedFiles(
+      acceptedFiles.map((file) => ({
+        name: file.name,
+        size: file.size,
+        type: file.type,
+      }))
+    );
 
-    // await new Promise((resolve) => {
-    //   setTimeout(() => {
-    //     resolve('resolved');
-    //   }, 3000);
-    // });
     setUploadProgress(100);
     clearInterval(progressInterval);
+    setIsUploading(false);
   }, []);
 
   const { getRootProps, getInputProps, fileRejections } = useDropzone({
     onDrop,
-    // accept: { 'image/jpeg': [], 'image/png': [] },
     multiple: isMulti,
+    // accept: { 'image/jpeg': [], 'image/png': [] }, // Define file types if necessary
   });
 
   useEffect(() => {
-    if (fileRejections.length > 1) {
-      toast.error('error');
-    } else if (fileRejections.length > 0) {
-      toast.error('error');
+    if (fileRejections.length > 0) {
+      toast.error('Some files were rejected');
     }
   }, [fileRejections]);
 
@@ -87,15 +94,14 @@ export function UploadDropzone(props) {
           or drag and drop <br />
           Maximum file size 50 MB.
         </h4>
-        {/* <p>Only *.jpeg and *.png images will be accepted</p> */}
-        {isUploading ? (
+        {isUploading && (
           <div className="mx-auto mt-4 w-full max-w-xs">
             <Progress
               value={uploadProgress}
               className="h-1 w-full bg-zinc-200"
             />
           </div>
-        ) : null}
+        )}
       </div>
     </div>
   );

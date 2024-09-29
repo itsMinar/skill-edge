@@ -6,7 +6,7 @@ import { useState } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Loader2 } from 'lucide-react';
-import { SubmitHandler, useForm } from 'react-hook-form';
+import { type SubmitHandler, useForm } from 'react-hook-form';
 import { z } from 'zod';
 
 import { Button } from '~/components/ui/button';
@@ -67,8 +67,10 @@ export function LoginForm() {
         router.push('/courses');
       }
     } catch (error) {
-      console.error('🚀 ~ error:', error);
-      setFormError('Failed to Login. Please try again.');
+      const errorMessage =
+        error instanceof Error ? error.message : String(error);
+
+      setFormError(errorMessage);
     }
   };
 
