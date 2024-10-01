@@ -13,7 +13,7 @@ export default async function DashboardPage() {
 
   const instructor = await getUserByEmail(session.user.email);
 
-  // if (instructor.role !== 'instructor') redirect('/account');
+  if (instructor.role !== 'instructor') redirect('/account');
 
   const courseStats = await getCourseDetailsByInstructor(instructor.id);
 
@@ -46,7 +46,7 @@ export default async function DashboardPage() {
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">
-              {formatPrice(courseStats.totalRevenue)}
+              {formatPrice(courseStats.totalRevenue as number)}
             </div>
           </CardContent>
         </Card>

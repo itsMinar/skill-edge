@@ -1,13 +1,34 @@
 'use client';
 
-import { ArrowUpDown } from 'lucide-react';
+import Link from 'next/link';
+
+import { type ColumnDef } from '@tanstack/react-table';
+import {
+  ArrowUpDown,
+  GraduationCap,
+  MoreHorizontal,
+  Pencil,
+} from 'lucide-react';
 
 import { Button } from '~/components/ui/button';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '~/components/ui/dropdown-menu';
 
-export const columns = [
+// Define the type for your data
+export interface IReviewColumn {
+  id: string;
+  studentName: string;
+  content: string;
+}
+
+export const columns: ColumnDef<IReviewColumn>[] = [
   {
     id: 'name',
-    accessorKey: 'student.name',
+    accessorKey: 'studentName',
     header: ({ column }) => {
       return (
         <Button
@@ -33,7 +54,7 @@ export const columns = [
     },
   },
   {
-    accessorKey: 'review',
+    accessorKey: 'content',
     header: ({ column }) => {
       return (
         <Button
@@ -45,34 +66,34 @@ export const columns = [
       );
     },
   },
-  // {
-  //   id: "actions",
-  //   cell: ({ row }) => {
-  //     const { id } = row.original;
-  //     return (
-  //       <DropdownMenu>
-  //         <DropdownMenuTrigger asChild>
-  //           <Button variant="ghost" className="h-4 w-8 p-0">
-  //             <span className="sr-only">Open Menu</span>
-  //             <MoreHorizontal className="h-4 w-4" />
-  //           </Button>
-  //         </DropdownMenuTrigger>
-  //         <DropdownMenuContent align="end">
-  //           <Link href={`/dashboard/courses/${id}`}>
-  //             <DropdownMenuItem className="cursor-pointer">
-  //               <Pencil className="h-4 w-4 mr-2" />
-  //               Edit
-  //             </DropdownMenuItem>
-  //           </Link>
-  //           <Link href={`/dashboard/courses/${id}/enrollments`}>
-  //             <DropdownMenuItem className="cursor-pointer">
-  //               <GraduationCap className="h-4 w-4 mr-2" />
-  //               View Enrollments
-  //             </DropdownMenuItem>
-  //           </Link>
-  //         </DropdownMenuContent>
-  //       </DropdownMenu>
-  //     );
-  //   },
-  // },
+  {
+    id: 'actions',
+    cell: ({ row }) => {
+      const { id } = row.original;
+      return (
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="ghost" className="h-4 w-8 p-0">
+              <span className="sr-only">Open Menu</span>
+              <MoreHorizontal className="h-4 w-4" />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end">
+            <Link href={`/dashboard/courses/${id}`}>
+              <DropdownMenuItem className="cursor-pointer">
+                <Pencil className="mr-2 h-4 w-4" />
+                Edit
+              </DropdownMenuItem>
+            </Link>
+            <Link href={`/dashboard/courses/${id}/enrollments`}>
+              <DropdownMenuItem className="cursor-pointer">
+                <GraduationCap className="mr-2 h-4 w-4" />
+                View Enrollments
+              </DropdownMenuItem>
+            </Link>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      );
+    },
+  },
 ];
