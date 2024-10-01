@@ -27,7 +27,6 @@ export interface IReviewColumn {
 
 export const columns: ColumnDef<IReviewColumn>[] = [
   {
-    id: 'name',
     accessorKey: 'studentName',
     header: ({ column }) => {
       return (
@@ -54,6 +53,7 @@ export const columns: ColumnDef<IReviewColumn>[] = [
     },
   },
   {
+    id: 'review',
     accessorKey: 'content',
     header: ({ column }) => {
       return (

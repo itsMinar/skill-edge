@@ -1,37 +1,25 @@
-import { columns } from './_components/columns';
+import { getCourseDetails } from '~/server/queries/courses';
+import { getInstructorDashboardData } from '~/server/queries/dashboard';
+
+import { type IEnrollmentColumn, columns } from './_components/columns';
 import { DataTable } from './_components/data-table';
 
-const enrollments = [
-  {
-    id: 1,
-    date: '10 Nov 2022',
-    student: {
-      name: 'John Doe',
-      email: 'Dp5kz@example.com',
-      progress: '10%',
-      quizMark: 80,
-    },
-  },
-  {
-    id: 1,
-    date: '10 Nov 2022',
-    student: {
-      name: 'John Smilga',
-      email: 'johnsmilga@gmail.com',
-      progress: '80%',
-      quizMark: 50,
-    },
-  },
-];
+type EnrollmentsPageProps = {
+  params: {
+    courseId: string;
+  };
+};
 
-export default async function EnrollmentsPage() {
+export default async function EnrollmentsPage({
+  params: { courseId },
+}: EnrollmentsPageProps) {
+  const course = await getCourseDetails(courseId);
+  const enrollments = await getInstructorDashboardData('enrollment');
+
   return (
     <div className="p-6">
-      {/* <Link href="/teacher/create">
-        <Button>New Course</Button>
-      </Link> */}
-      <h2>Think in a Redux way enrollments</h2>
-      <DataTable columns={columns} data={enrollments} />
+      <h2>{course?.title}</h2>
+      <DataTable columns={columns} data={enrollments as IEnrollmentColumn[]} />
     </div>
   );
 }

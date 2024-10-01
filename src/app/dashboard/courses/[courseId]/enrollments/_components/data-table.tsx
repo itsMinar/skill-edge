@@ -3,6 +3,9 @@
 import * as React from 'react';
 
 import {
+  type ColumnDef,
+  type ColumnFiltersState,
+  type SortingState,
   flexRender,
   getCoreRowModel,
   getFilteredRowModel,
@@ -22,11 +25,20 @@ import {
   TableRow,
 } from '~/components/ui/table';
 
-export function DataTable({ columns, data }) {
-  const [sorting, setSorting] = React.useState([]);
-  const [columnFilters, setColumnFilters] = React.useState([]);
+import { type IEnrollmentColumn } from './columns';
 
-  const table = useReactTable({
+interface DataTableProps {
+  columns: ColumnDef<IEnrollmentColumn>[];
+  data: IEnrollmentColumn[];
+}
+
+export function DataTable({ columns, data }: DataTableProps) {
+  const [sorting, setSorting] = React.useState<SortingState>([]);
+  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
+    []
+  );
+
+  const table = useReactTable<IEnrollmentColumn>({
     data,
     columns,
     getCoreRowModel: getCoreRowModel(),
@@ -47,7 +59,7 @@ export function DataTable({ columns, data }) {
       <div className="flex items-center justify-between py-4">
         <Input
           placeholder="Filter by student name..."
-          value={table.getColumn('name')?.getFilterValue() ?? ''}
+          value={(table.getColumn('name')?.getFilterValue() as string) ?? ''}
           onChange={(event) =>
             table.getColumn('name')?.setFilterValue(event.target.value)
           }
